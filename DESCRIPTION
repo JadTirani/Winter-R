@@ -1,0 +1,9 @@
+Package: Winter
+Title: Winter Support Library
+Version: 0.1.0
+Authors@R: person("Jad Tirani", role = c("aut", "cre"))
+Description: Support Library to Wrap R Functions.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
