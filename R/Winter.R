@@ -153,3 +153,15 @@ Algorithm = R6::R6Class(
 overlay_fncs = function(passthru_fncs, ...) {
   curve(passthru_fncs, add=TRUE, ...)
 }
+
+
+#' @title Windows VScode Plot Visualization
+#' 
+#' @description alters the output of plots created in VS code to display in a serperate window, This function is windows specific
+#' 
+#' @export 
+graphical_enhancment = function() {
+  if (Sys.info()[['sysname']] == "Windows") {
+    grDevices::windows()
+  }
+}
