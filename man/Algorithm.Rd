@@ -22,6 +22,7 @@ Class to do a non-linear minimization algorithm
 \item \href{#method-Algorithm-run_lm}{\code{Algorithm$run_lm()}}
 \item \href{#method-Algorithm-solved_params}{\code{Algorithm$solved_params()}}
 \item \href{#method-Algorithm-plotter}{\code{Algorithm$plotter()}}
+\item \href{#method-Algorithm-gg2_plotter}{\code{Algorithm$gg2_plotter()}}
 \item \href{#method-Algorithm-plus_overlay}{\code{Algorithm$plus_overlay()}}
 \item \href{#method-Algorithm-clone}{\code{Algorithm$clone()}}
 }
@@ -128,6 +129,25 @@ Plots the data
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{(params) Feeds into styling the plot}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Algorithm-gg2_plotter"></a>}}
+\if{latex}{\out{\hypertarget{method-Algorithm-gg2_plotter}{}}}
+\subsection{Method \code{gg2_plotter()}}{
+GG2 Plotter
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Algorithm$gg2_plotter(..., passthru_df = NA)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(params) Feeds into styling the plot}
+
+\item{\code{passthru_df}}{(dataframe) Dataframe to pull info (overides stored df)}
 }
 \if{html}{\out{</div>}}
 }

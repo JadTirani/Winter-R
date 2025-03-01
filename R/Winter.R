@@ -118,6 +118,25 @@ Algorithm = R6::R6Class(
       invisible(self)
     },
 
+    #' @description GG2 Plotter
+    #' 
+    #' @param ... (params) Feeds into styling the plot
+    #' @param passthru_df (dataframe) Dataframe to pull info (overides stored df)
+    #' 
+    #' @import ggplot2
+    #' @export
+    gg2_plotter = function(..., passthru_df = NA) {
+      if (!missing(passthru_df)) {
+        ggobj = ggplot2::ggplot(passthru_df, ...)
+      } else {
+        ggobj = ggplot2::ggplot(private$df, ...)
+      }
+      ggobj = ggobj + ggplot2::geom_point() + ggplot2::theme_classic() + ggplot2::theme(legend.position = "none")
+      return(ggobj)
+    }
+
+    ,
+
     #' @description Function Overlay 
     #' 
     #' @param ... (params) Feeds plot styling
