@@ -2,8 +2,10 @@
 
 export(Algorithm)
 export(assert)
+export(ggthemedefault)
 export(graphical_enhancment)
 export(overlay_fncs)
+export(runtime_function)
 export(start_algorithm_nls)
 import(R6)
 import(ggplot2)

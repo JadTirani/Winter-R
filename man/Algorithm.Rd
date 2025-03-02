@@ -18,6 +18,7 @@ Class to do a non-linear minimization algorithm
 \itemize{
 \item \href{#method-Algorithm-new}{\code{Algorithm$new()}}
 \item \href{#method-Algorithm-set_df}{\code{Algorithm$set_df()}}
+\item \href{#method-Algorithm-get_df}{\code{Algorithm$get_df()}}
 \item \href{#method-Algorithm-run_nls}{\code{Algorithm$run_nls()}}
 \item \href{#method-Algorithm-run_lm}{\code{Algorithm$run_lm()}}
 \item \href{#method-Algorithm-solved_params}{\code{Algorithm$solved_params()}}
@@ -57,6 +58,23 @@ Sets the dataframe for the object
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{passthru_df}}{(dataframe) Dataframe to pull info}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Algorithm-get_df"></a>}}
+\if{latex}{\out{\hypertarget{method-Algorithm-get_df}{}}}
+\subsection{Method \code{get_df()}}{
+Gets the dataframe for the object
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Algorithm$get_df(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(params) Can specify which columns to pull}
 }
 \if{html}{\out{</div>}}
 }

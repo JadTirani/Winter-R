@@ -63,6 +63,20 @@ Algorithm = R6::R6Class(
     set_df = function(passthru_df = NULL) {
       private$df = passthru_df
     },
+    
+    #' @description Gets the dataframe for the object 
+    #' 
+    #' @param ... (params) Can specify which columns to pull
+    #' 
+    #' @export
+    get_df = function(...) {
+      if (length(list(...)) == 0) {
+        return(private$df)
+      } 
+        
+      cols = private$df[, as.character(list(...)),drop = FALSE]
+      return(cols)
+    },
 
     #' @description Runs the non-least squares model with passed in variables
     #' 
@@ -75,7 +89,7 @@ Algorithm = R6::R6Class(
     run_nls = function(passthru_fncs, passthru_start) {
       private$model = stats::nls(formula=passthru_fncs, data=private$df, start=passthru_start)
       self$params = coef(private$model)
-      invisible(self)
+      #invisible(self)
     },
 
     #' @description Runs a linear model regression
@@ -94,6 +108,27 @@ Algorithm = R6::R6Class(
       self$params = coef(private$model)
       invisible(self)
     },
+    
+    # #' @description Runs the modified nlm.ls function with Levenberg-Marquardt algorithm
+    # #' Designed to take in a residual function along with 
+    # #' 
+    # #' @param passthru_fncsparams (list) arguments for optimization
+    # #' @param passthru_fncsparams (quote) body for optimization function
+    # #' @param passthru_start (numeric vector) starting guess for nls
+    # #' @param ... (params) Use to specify the columns of the dataframe your using
+    # #' 
+    # #' @return self - Allows chaining
+    # #' 
+    # #' @import minpack.lm
+    # #' @export
+    # run_nlslm = function(passthru_fncsparams, passthru_fncsbody, passthru_start) {
+    #   
+    #   fncs = runtime_function(passthru_fncsparams, passthru_fncsbody)
+    #   resi_params = c(list("p","obs"),passthru_fncsparams)
+    #   resi_fncs = runtime_function(resi_params, quote(obs-fncs()))
+    #   
+    #   minpack.lm::nls.lm(par=passthru_start, fn = passthru_resi, ...)
+    # },
 
     #' @description Safley returns the parameters 
     #' 
@@ -131,11 +166,13 @@ Algorithm = R6::R6Class(
       } else {
         ggobj = ggplot2::ggplot(private$df, ...)
       }
-      ggobj = ggobj + ggplot2::geom_point() + ggplot2::theme_classic() + ggplot2::theme(legend.position = "none")
+      ggobj = ggobj + 
+        ggplot2::geom_point() + 
+        ggplot2::theme_classic() + 
+        ggplot2::theme(legend.position = "none") +
+        ggplot2::coord_cartesian(clip = "off")
       return(ggobj)
-    }
-
-    ,
+    },
 
     #' @description Function Overlay 
     #' 
@@ -183,4 +220,41 @@ graphical_enhancment = function() {
   if (Sys.info()[['sysname']] == "Windows") {
     grDevices::windows()
   }
+}
+
+#' @title Creates a function at run time
+#' 
+#' @description Pass through the function parameters, and the body
+#' 
+#' @param var_names (list) passthrough the parameters for the new function
+#' @param expression (quote) pass through the function body
+#' 
+#' @export 
+runtime_function <- function(var_names, expression) {
+  formals_list <- lapply(var_names, function(name) alist(a=)$a)
+  names(formals_list) <- var_names
+  
+  function_body <- quote({
+    eval(expression)
+  })
+  
+  # Create the new function
+  new_function <- as.function(c(formals_list, function_body))
+  return(new_function)
+}
+
+#' @title ggplot2 default settings
+#' 
+#' @description applys the default settings for a graph to a passed in ggplot
+#' 
+#' @param passthru_gg pass through a ggplot
+#'
+#' @export
+ggthemedefault = function(passthru_gg) {
+  passthru_gg = passthru_gg + 
+    ggplot2::geom_point() + 
+    ggplot2::theme_classic() + 
+    ggplot2::theme(legend.position = "none") +
+    ggplot2::coord_cartesian(clip = "off")
+  return(passthru_gg)
 }
