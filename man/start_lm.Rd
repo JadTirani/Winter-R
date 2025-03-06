@@ -4,10 +4,14 @@
 \alias{start_lm}
 \title{Linear Regression}
 \usage{
-start_lm(passthru_data = NA)
+start_lm(passthru_data, X, Y)
 }
 \arguments{
 \item{passthru_data}{A dataframe or y~x style function for the model to analyze}
+
+\item{X}{The X variable of your regression}
+
+\item{Y}{The Y variable of your regression}
 }
 \value{
 (list) 3 elements in order of params, std error, and the model

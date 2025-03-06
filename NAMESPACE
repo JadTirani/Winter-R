@@ -2,9 +2,10 @@
 
 export(Algorithm)
 export(assert)
+export(ggdefault)
 export(ggthemedefault)
 export(graphical_enhancment)
-export(overlay_fncs)
+export(overlay_curve)
 export(runtime_function)
 export(start_algorithm_nls)
 export(start_lm)

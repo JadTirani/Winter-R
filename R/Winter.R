@@ -204,12 +204,15 @@ Algorithm = R6::R6Class(
 #' @description Preforms a linear regression and returns the lm object
 #' 
 #' @param passthru_data A dataframe or y~x style function for the model to analyze
+#' @param X The X variable of your regression
+#' @param Y The Y variable of your regression
 #' 
 #' @return (list) 3 elements in order of params, std error, and the model
 #' 
 #' @export
-start_lm = function(passthru_data = NA) {
-  temp_lm = stats::lm(passthru_data)
+start_lm = function(passthru_data, X, Y) {
+  formula_str <- paste(Y, "~", paste(X, collapse = " + "))
+  temp_lm = stats::lm(formula_str, data=passthru_data)
   passout_params = coef(temp_lm)
   passout_stderr = summary(temp_lm)$coefficients[,2]
   return(list(passout_params, passout_stderr, temp_lm))
@@ -262,13 +265,53 @@ start_nls_lm = function(passthru_resifncs,
 #' 
 #' @description Overlayed function on the plot
 #' 
-#' @param passthru_fncs (function - opt) overlayed function on the plot
+#' @export
+ggdefault = function() {
+  return(list(ggplot2::geom_point(), 
+              ggplot2::theme_classic(),
+              ggplot2::theme(legend.position = "none"), 
+              ggplot2::coord_cartesian(clip = "off")))
+}
+
+#' @title ggplot2 Function Overlay
+#' 
+#' @description Overlayed function on the plot
+#' 
+#' @param passthru_plot physical ggplot object
+#' @param passthru_fncs (function/list(function)) overlayed function on the plot
+#' @param passthru_colour (colour/ list(colour))
 #' @param ... (params - opt) passthru styling for the function overlayed  
 #' 
 #' @export 
-overlay_fncs = function(passthru_fncs, ...) {
-  curve(passthru_fncs, add=TRUE, ...)
+overlay_curve = function(passthru_plot, passthru_fncs, passthru_colour, ...) {
+  return_curve = list()
+  if (typeof(passthru_fncs) == "list") {
+    for (i in 1:length(passthru_fncs)) {
+      return_curve[[i]] = ggplot2::stat_function(fun = passthru_fncs[[i]],
+                                                 color = passthru_colour[[i]],
+                                                 ...)
+    }
+  } else {
+    return_curve[[1]] = ggplot2::stat_function(fun = passthru_fncs,
+                                               color = passthru_colour,
+                                               ...)
+  }
+
+  return(passthru_plot + return_curve)
 }
+
+
+#' #' @title Function Overlay
+#' #' 
+#' #' @description Overlayed function on the plot
+#' #' 
+#' #' @param passthru_fncs (function - opt) overlayed function on the plot
+#' #' @param ... (params - opt) passthru styling for the function overlayed  
+#' #' 
+#' #' @export 
+#' overlay_fncs = function(passthru_fncs, ...) {
+#'   curve(passthru_fncs, add=TRUE, ...)
+#' }
 
 
 #' @title Windows VScode Plot Visualization

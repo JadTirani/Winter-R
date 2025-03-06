@@ -9,3 +9,16 @@ graphical_enhancment()
 \description{
 alters the output of plots created in VS code to display in a serperate window, This function is windows specific
 }
+\details{
+#' @title Function Overlay
+#' 
+#' @description Overlayed function on the plot
+#' 
+#' @param passthru_fncs (function - opt) overlayed function on the plot
+#' @param ... (params - opt) passthru styling for the function overlayed  
+#' 
+#' @export 
+overlay_fncs = function(passthru_fncs, ...) {
+  curve(passthru_fncs, add=TRUE, ...)
+}
+}
