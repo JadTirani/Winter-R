@@ -161,17 +161,18 @@ Algorithm = R6::R6Class(
     #' @import ggplot2
     #' @export
     gg2_plotter = function(..., passthru_df = NA) {
+      ggobj = NA
       if (!missing(passthru_df)) {
         ggobj = ggplot2::ggplot(passthru_df, ...)
       } else {
         ggobj = ggplot2::ggplot(private$df, ...)
       }
-      ggobj = ggobj + 
-        ggplot2::geom_point() + 
-        ggplot2::theme_classic() + 
-        ggplot2::theme(legend.position = "none") +
-        ggplot2::coord_cartesian(clip = "off")
-      return(ggobj)
+      # ggobj = ggobj + 
+      #   ggplot2::geom_point() + 
+      #   ggplot2::theme_classic() + 
+      #   ggplot2::theme(legend.position = "none") +
+      #   ggplot2::coord_cartesian(clip = "off")
+      # return(ggobj)
     },
 
     #' @description Function Overlay 
@@ -197,6 +198,65 @@ Algorithm = R6::R6Class(
     model = NULL
   )
 )
+
+#' @title Linear Regression
+#' 
+#' @description Preforms a linear regression and returns the lm object
+#' 
+#' @param passthru_data A dataframe or y~x style function for the model to analyze
+#' 
+#' @return (list) 3 elements in order of params, std error, and the model
+#' 
+#' @export
+start_lm = function(passthru_data = NA) {
+  temp_lm = stats::lm(passthru_data)
+  passout_params = coef(temp_lm)
+  passout_stderr = summary(temp_lm)$coefficients[,2]
+  return(list(passout_params, passout_stderr, temp_lm))
+}
+
+#' @title Non-Least Squares Regression
+#' 
+#' @description Preforms a nls and returns the nls object
+#' 
+#' @param passthru_data A dataframe or y~x style function for the model to analyze
+#' @param passthru_fncs the function that the template function the fit is trying to replicate
+#' @param passthru_start starting parameters for the model to run
+#' 
+#' @return (list) 3 elements in order of params, std error, and the model
+#' 
+#' @export
+start_nls = function (passthru_data, 
+                      passthru_fncs, 
+                      passthru_start = NA) {
+  temp_nls = stats::nls(formula = passthru_fncs, data = passthru_data, start = pasasthru_start)
+  passout_params = coef(temp_nls)
+  passout_stderr = summary(temp_nls)$coefficients[,2]
+  return(list(passout_params, passout_stderr, temp_nls))
+}
+
+#' @title Non-Linear Regression
+#' 
+#' @description Preforms a non-linear regression using the e Levenberg-Marquardt algorithm and returns the nls.lm object
+#' 
+#' @param passthru_resifncs the residual function constructed between observed points and template points to minimize
+#' @param passthru_start starting parameters for the model to run
+#' @param ... (params) MUST match the inputs of the templte function used besides optimization parameter (often in the format obs=data, var1=data1, var2=data2...)
+#' 
+#' @return (list) 3 elements in order of params, std error, and the model
+#' 
+#' @import minpack.lm
+#' @export
+start_nls_lm = function(passthru_resifncs, 
+                        passthru_start, 
+                        ...) {
+  temp_nls_lm = minpack.lm::nls.lm(par = passthru_start,
+                                   fn=passthru_resifncs,
+                                   ...)
+  passout_params = coef(temp_nls_lm)
+  passout_stderr = summary(temp_nls_lm)$coefficients[,2]
+  return(list(passout_params, passout_stderr, temp_nls_lm))
+}
 
 #' @title Function Overlay
 #' 
@@ -251,9 +311,9 @@ runtime_function <- function(var_names, expression) {
 #'
 #' @export
 ggthemedefault = function(passthru_gg) {
-  passthru_gg = passthru_gg + 
-    ggplot2::geom_point() + 
-    ggplot2::theme_classic() + 
+  passthru_gg = passthru_gg +
+    ggplot2::geom_point() +
+    ggplot2::theme_classic() +
     ggplot2::theme(legend.position = "none") +
     ggplot2::coord_cartesian(clip = "off")
   return(passthru_gg)
