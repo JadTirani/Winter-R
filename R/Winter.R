@@ -11,7 +11,7 @@
 #' @return Void Function
 #' 
 #' @export
-assert = function(passthru_msg, term = TRUE) { # nolint: assignment_linter.
+assert = function(passthru_msg, term = FALSE) { # nolint: assignment_linter.
   if (term) {
     stop("[Winter] - Assert: ", passthru_msg, "\n", call. = FALSE)
   } else {
@@ -232,7 +232,7 @@ start_lm = function(passthru_data, X, Y) {
 start_nls = function (passthru_data, 
                       passthru_fncs, 
                       passthru_start = NA) {
-  temp_nls = stats::nls(formula = passthru_fncs, data = passthru_data, start = pasasthru_start)
+  temp_nls = stats::nls(formula = passthru_fncs, data = passthru_data, start = passthru_start)
   passout_params = coef(temp_nls)
   passout_stderr = summary(temp_nls)$coefficients[,2]
   return(list(passout_params, passout_stderr, temp_nls))

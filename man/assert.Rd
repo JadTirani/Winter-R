@@ -4,7 +4,7 @@
 \alias{assert}
 \title{Assert Debugging Function}
 \usage{
-assert(passthru_msg, term = TRUE)
+assert(passthru_msg, term = FALSE)
 }
 \arguments{
 \item{passthru_msg}{Adds a message to the aleart}
